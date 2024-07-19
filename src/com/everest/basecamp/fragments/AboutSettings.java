@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.everest.basecamp.categories;
+package com.everest.basecamp.fragments;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.UserHandle;
 import android.provider.SearchIndexableResource;
-import android.provider.Settings;
 
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -40,46 +35,26 @@ import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settingslib.search.Indexable;
 import com.android.settingslib.search.SearchIndexable;
 
-import com.everest.support.preferences.CustomSeekBarPreference;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SearchIndexable
-public class StatusBarSettings extends SettingsPreferenceFragment 
-            implements Preference.OnPreferenceChangeListener {
-
-    private static final String KEY_STATUSBAR_TOP_PADDING = "statusbar_top_padding";
-    private static final String KEY_STATUSBAR_LEFT_PADDING = "statusbar_left_padding";
-    private static final String KEY_STATUSBAR_RIGHT_PADDING = "statusbar_right_padding";
-    private static final String DEFAULT = "_default";
+public class AboutSettings extends SettingsPreferenceFragment
+        implements Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.everest_statusbar);
+        addPreferencesFromResource(R.xml.everest_about);
         PreferenceScreen prefSet = getPreferenceScreen();
         final Resources res = getResources();
         final PreferenceScreen prefScreen = getPreferenceScreen();
-
-        CustomSeekBarPreference leftSeekBar = findPreference(KEY_STATUSBAR_LEFT_PADDING);
-        int defaultLeftPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_start);
-        leftSeekBar.setDefaultValue(defaultLeftPadding, true);
-
-        CustomSeekBarPreference rightSeekBar = findPreference(KEY_STATUSBAR_RIGHT_PADDING);
-        int defaultRightPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_end);
-        rightSeekBar.setDefaultValue(defaultRightPadding, true);
-
-        CustomSeekBarPreference topSeekbar = findPreference(KEY_STATUSBAR_TOP_PADDING);
-        int defaultTopPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_top);
-        topSeekbar.setDefaultValue(defaultTopPadding, true);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         return false;
-    }  
+    }
 
     @Override
     public int getMetricsCategory() {
@@ -91,7 +66,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                 public List<SearchIndexableResource> getXmlResourcesToIndex(
                         Context context, boolean enabled) {
                     final SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.everest_statusbar;
+                    sir.xmlResId = R.xml.everest_about;
                     return Arrays.asList(sir);
                 }
 

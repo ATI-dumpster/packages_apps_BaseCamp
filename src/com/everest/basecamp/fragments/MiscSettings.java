@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 The EverestOS Project
+ * Copyright (C) 2023 The EverestOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.everest.basecamp.categories;
+package com.everest.basecamp.fragments;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -33,6 +33,8 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.internal.logging.nano.MetricsProto;
+import com.android.internal.util.everest.systemUtils;
+import com.everest.support.preferences.SystemSettingListPreference;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
@@ -45,20 +47,47 @@ import java.util.Arrays;
 import java.util.List;
 
 @SearchIndexable
-public class SystemSettings extends SettingsPreferenceFragment 
+public class MiscSettings extends SettingsPreferenceFragment 
             implements Preference.OnPreferenceChangeListener {
+
+    private static final String SETTINGS_HEADER_IMAGE_RANDOM = "settings_header_image_random";
+    private static final String ABOUT_PHONE_STYLE = "header_style";
+    private static final String SETTINGS_DASHBOARD_STYLE = "settings_dashboard_style";
+
+    private Preference mSettingsHeaderImageRandom;
+    private SystemSettingListPreference mAboutPhoneStyle;
+    private SystemSettingListPreference mDashBoardStyle;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.everest_system);
+        addPreferencesFromResource(R.xml.everest_misc);
         PreferenceScreen prefSet = getPreferenceScreen();
         final Resources res = getResources();
         final PreferenceScreen prefScreen = getPreferenceScreen();
+
+        mSettingsHeaderImageRandom = findPreference(SETTINGS_HEADER_IMAGE_RANDOM);
+        mSettingsHeaderImageRandom.setOnPreferenceChangeListener(this);
+        mAboutPhoneStyle = (SystemSettingListPreference) findPreference(ABOUT_PHONE_STYLE);
+        mAboutPhoneStyle.setOnPreferenceChangeListener(this);
+        mDashBoardStyle = (SystemSettingListPreference) findPreference(SETTINGS_DASHBOARD_STYLE);
+        mDashBoardStyle.setOnPreferenceChangeListener(this);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+    	Context mContext = getActivity().getApplicationContext();
+	ContentResolver resolver = mContext.getContentResolver();
+	if (preference == mSettingsHeaderImageRandom) {
+            systemUtils.showSettingsRestartDialog(getContext());
+            return true;
+        } else if (preference == mAboutPhoneStyle) {
+            systemUtils.showSettingsRestartDialog(getContext());
+            return true;
+        } else if (preference == mDashBoardStyle) {
+            systemUtils.showSettingsRestartDialog(getContext());
+            return true;
+        }    
         return false;
     }  
 
@@ -72,7 +101,7 @@ public class SystemSettings extends SettingsPreferenceFragment
                 public List<SearchIndexableResource> getXmlResourcesToIndex(
                         Context context, boolean enabled) {
                     final SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.everest_system;
+                    sir.xmlResId = R.xml.everest_misc;
                     return Arrays.asList(sir);
                 }
 

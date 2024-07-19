@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.everest.basecamp.categories;
+package com.everest.basecamp.fragments;
 
 import android.app.Activity;
 import android.content.ContentResolver;

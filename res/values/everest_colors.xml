@@ -26,4 +26,7 @@
 
     <!-- Sound Engine -->
     <color name="sound_engine_menu_border_selected_color">#0b6ae2</color>
+
+    <color name="black">#FF000000</color>
+
 </resources>

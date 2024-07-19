@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.everest.basecamp.categories;
+package com.everest.basecamp.fragments;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.UserHandle;
 import android.provider.SearchIndexableResource;
-import android.provider.Settings;
 
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -33,8 +28,6 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.internal.logging.nano.MetricsProto;
-import com.android.internal.util.everest.systemUtils;
-import com.everest.support.preferences.SystemSettingListPreference;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
@@ -42,52 +35,44 @@ import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settingslib.search.Indexable;
 import com.android.settingslib.search.SearchIndexable;
 
+import com.everest.support.preferences.CustomSeekBarPreference;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @SearchIndexable
-public class MiscSettings extends SettingsPreferenceFragment 
+public class StatusBarSettings extends SettingsPreferenceFragment 
             implements Preference.OnPreferenceChangeListener {
 
-    private static final String SETTINGS_HEADER_IMAGE_RANDOM = "settings_header_image_random";
-    private static final String ABOUT_PHONE_STYLE = "header_style";
-    private static final String SETTINGS_DASHBOARD_STYLE = "settings_dashboard_style";
-
-    private Preference mSettingsHeaderImageRandom;
-    private SystemSettingListPreference mAboutPhoneStyle;
-    private SystemSettingListPreference mDashBoardStyle;
+    private static final String KEY_STATUSBAR_TOP_PADDING = "statusbar_top_padding";
+    private static final String KEY_STATUSBAR_LEFT_PADDING = "statusbar_left_padding";
+    private static final String KEY_STATUSBAR_RIGHT_PADDING = "statusbar_right_padding";
+    private static final String DEFAULT = "_default";
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.everest_misc);
+        addPreferencesFromResource(R.xml.everest_statusbar);
         PreferenceScreen prefSet = getPreferenceScreen();
         final Resources res = getResources();
         final PreferenceScreen prefScreen = getPreferenceScreen();
 
-        mSettingsHeaderImageRandom = findPreference(SETTINGS_HEADER_IMAGE_RANDOM);
-        mSettingsHeaderImageRandom.setOnPreferenceChangeListener(this);
-        mAboutPhoneStyle = (SystemSettingListPreference) findPreference(ABOUT_PHONE_STYLE);
-        mAboutPhoneStyle.setOnPreferenceChangeListener(this);
-        mDashBoardStyle = (SystemSettingListPreference) findPreference(SETTINGS_DASHBOARD_STYLE);
-        mDashBoardStyle.setOnPreferenceChangeListener(this);
+        CustomSeekBarPreference leftSeekBar = findPreference(KEY_STATUSBAR_LEFT_PADDING);
+        int defaultLeftPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_start);
+        leftSeekBar.setDefaultValue(defaultLeftPadding, true);
+
+        CustomSeekBarPreference rightSeekBar = findPreference(KEY_STATUSBAR_RIGHT_PADDING);
+        int defaultRightPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_end);
+        rightSeekBar.setDefaultValue(defaultRightPadding, true);
+
+        CustomSeekBarPreference topSeekbar = findPreference(KEY_STATUSBAR_TOP_PADDING);
+        int defaultTopPadding = getResources().getDimensionPixelSize(com.android.internal.R.dimen.status_bar_padding_top);
+        topSeekbar.setDefaultValue(defaultTopPadding, true);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-    	Context mContext = getActivity().getApplicationContext();
-	ContentResolver resolver = mContext.getContentResolver();
-	if (preference == mSettingsHeaderImageRandom) {
-            systemUtils.showSettingsRestartDialog(getContext());
-            return true;
-        } else if (preference == mAboutPhoneStyle) {
-            systemUtils.showSettingsRestartDialog(getContext());
-            return true;
-        } else if (preference == mDashBoardStyle) {
-            systemUtils.showSettingsRestartDialog(getContext());
-            return true;
-        }    
         return false;
     }  
 
@@ -101,7 +86,7 @@ public class MiscSettings extends SettingsPreferenceFragment
                 public List<SearchIndexableResource> getXmlResourcesToIndex(
                         Context context, boolean enabled) {
                     final SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.everest_misc;
+                    sir.xmlResId = R.xml.everest_statusbar;
                     return Arrays.asList(sir);
                 }
 
