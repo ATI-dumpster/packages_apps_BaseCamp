@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.everest.basecamp.categories;
+package com.everest.basecamp.fragments;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -45,13 +45,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @SearchIndexable
-public class StatusBarSettings extends SettingsPreferenceFragment 
+public class LockScreenSettings extends SettingsPreferenceFragment 
             implements Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.everest_statusbar);
+        addPreferencesFromResource(R.xml.everest_lockscreen);
         PreferenceScreen prefSet = getPreferenceScreen();
         final Resources res = getResources();
         final PreferenceScreen prefScreen = getPreferenceScreen();
@@ -72,7 +72,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                 public List<SearchIndexableResource> getXmlResourcesToIndex(
                         Context context, boolean enabled) {
                     final SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.everest_statusbar;
+                    sir.xmlResId = R.xml.everest_lockscreen;
                     return Arrays.asList(sir);
                 }
 

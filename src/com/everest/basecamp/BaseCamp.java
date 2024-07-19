@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 The EverestOS Project
+ * Copyright (C) 2024 ProjectEverest
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,126 @@
 
 package com.everest.basecamp;
 
-import com.android.internal.logging.nano.MetricsProto;
-
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Surface;
-import android.preference.Preference;
-import com.android.settings.R;
+import android.widget.LinearLayout;
 
+import com.android.internal.logging.nano.MetricsProto;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.widget.NestedScrollView;
+
+import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 
-public class BaseCamp extends SettingsPreferenceFragment {
+import com.everest.basecamp.fragments.*;
+
+import android.content.Intent;
+
+import com.google.android.material.card.MaterialCardView;
+
+public class BaseCamp extends SettingsPreferenceFragment implements View.OnClickListener, View.OnLongClickListener {
+
+    private LinearLayout[] settingCards;
+    private MaterialCardView mLockScreenSettingsCard;
+    private NestedScrollView scrollView;
+    private int scrollY = 0;
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.basecamp, container, false);
+        scrollView = view.findViewById(R.id.nested_scroll_view);
+        settingCards = new LinearLayout[]{
+                view.findViewById(R.id.themecard_2)
+        };
+        for (LinearLayout card : settingCards) {
+            card.setOnClickListener(this);
+        }
+        mLockScreenSettingsCard = view.findViewById(R.id.customization_picker_button);
+        mLockScreenSettingsCard.setOnClickListener(this);
+        mLockScreenSettingsCard.setOnLongClickListener(this);
 
-        addPreferencesFromResource(R.xml.basecamp);
+        return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("scrollY", scrollView.getScrollY());
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            scrollY = savedInstanceState.getInt("scrollY", 0);
+            scrollView.post(() -> scrollView.scrollTo(0, scrollY));
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        Fragment fragment = null;
+        String title = null;
+        if (id == R.id.themecard_2) {
+            fragment = new QuickSettings();
+            title = getString(R.string.quicksettings_title);
+        }
+        if (fragment != null && title != null) {
+            replaceFragment(fragment, title);
+        }
+    }
+
+     private void replaceFragment(Fragment fragment, String title) {
+    FragmentManager fragmentManager = getFragmentManager();
+    if (fragmentManager != null) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(
+            R.anim.slide_in,  // enter
+            R.anim.fade_out,  // exit
+            R.anim.fade_in,   // popEnter
+            R.anim.slide_out  // popExit
+        );
+        transaction.replace(this.getId(), fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        getActivity().setTitle(title != null ? title : "Everest Basecamp");
+    }
+}
+
+    @Override
+    public boolean onLongClick(View view) {
+        if (view.getId() == R.id.customization_picker_button) {
+            launchWallpaperPickerActivity();
+            return true;
+        }
+        return false;
     }
 
     @Override
     public int getMetricsCategory() {
         return MetricsProto.MetricsEvent.EVEREST;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Everest Basecamp");
+    }
+
+    private void launchWallpaperPickerActivity() {
+        Intent intent = new Intent();
+        intent.setClassName("com.google.android.apps.wallpaper", "com.google.android.apps.wallpaper.picker.CategoryPickerActivity");
+        startActivity(intent);
     }
 
     public static void lockCurrentOrientation(Activity activity) {
