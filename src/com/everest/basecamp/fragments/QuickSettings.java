@@ -53,9 +53,11 @@ public class QuickSettings extends SettingsPreferenceFragment
             implements Preference.OnPreferenceChangeListener {
 
     private static final String KEY_QS_COMPACT_PLAYER  = "qs_compact_media_player_mode";
+    private static final String KEY_QS_WIDGETS_ENABLED  = "qs_widgets_enabled";
 
     private ListPreference mQuickPulldown;
     private Preference mQsCompactPlayer;
+    private Preference mQsWidgetsPref;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -75,6 +77,8 @@ public class QuickSettings extends SettingsPreferenceFragment
 
         mQsCompactPlayer = (Preference) findPreference(KEY_QS_COMPACT_PLAYER);
         mQsCompactPlayer.setOnPreferenceChangeListener(this);
+        mQsWidgetsPref = findPreference(KEY_QS_WIDGETS_ENABLED);
+        mQsWidgetsPref.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -90,6 +94,11 @@ public class QuickSettings extends SettingsPreferenceFragment
                     mQuickPulldown.getEntries()[index]);
             return true;
         } else if (preference == mQsCompactPlayer) {
+            systemUtils.showSystemUIRestartDialog(getActivity());
+            return true;
+        } else if (preference == mQsWidgetsPref) {
+            Settings.Secure.putIntForUser(resolver,
+                    Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER, 0, UserHandle.USER_CURRENT);
             systemUtils.showSystemUIRestartDialog(getActivity());
             return true;
         }
