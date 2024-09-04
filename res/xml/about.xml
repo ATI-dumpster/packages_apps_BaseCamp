@@ -6,4 +6,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
 
+    <!-- About -->
+    <Preference
+        android:fragment="com.everest.basecamp.fragments.about.About"
+        android:icon="@drawable/ic_about"
+        android:key="about_devs"
+        android:summary="@string/about_summary"
+        android:title="@string/about_title"
+        settings:layout="@layout/everest_cardview_single_left" />
+
+        <!-- Changelog -->
+        <Preference
+            android:key="everest_changelog"
+            android:icon="@drawable/ic_changelog"
+            android:title="@string/changelog_title"
+            android:summary="@string/changelog_summary"
+            settings:layout="@layout/everest_cardview_single_right">
+            <intent android:action="android.intent.action.MAIN"
+                 android:targetPackage="com.android.settings"
+                 android:targetClass="com.everest.basecamp.fragments.about.ChangelogActivity"/>
+        </Preference>
+
+    <Preference
+        android:fragment="com.everest.basecamp.fragments.about.Links"
+        android:icon="@drawable/ic_settings_notifications"
+        android:key="links"
+        android:summary="@string/links_summary"
+        android:title="@string/links_title"
+        settings:layout="@layout/everest_cardview_single_left" />
+
 </PreferenceScreen>

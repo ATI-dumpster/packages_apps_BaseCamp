@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2019-2024 Evolution X
+     SPDX-License-Identifier: Apache-2.0
+-->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
+    android:title="@string/links_title">
+
+    <!-- link 1 -->
+        <Preference
+            android:icon="@drawable/ic_telegram"
+            android:title="@string/link_1_title"
+            android:summary="@string/link_1_summary"
+            settings:layout="@layout/everest_cardview_single_left">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://t.me/EverestOS" />
+        </Preference>
+
+    <!-- link 2 -->
+        <Preference
+            android:icon="@drawable/ic_telegram"
+            android:title="@string/link_2_title"
+            android:summary="@string/link_2_summary"
+            settings:layout="@layout/everest_cardview_single_right">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://t.me/projecteverest" />
+        </Preference>
+
+    <!-- link 3 -->
+        <Preference
+            android:icon="@drawable/ic_github"
+            android:title="@string/link_3_title"
+            android:summary="@string/link_3_summary"
+            settings:layout="@layout/everest_cardview_single_left">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/ProjectEverest" />
+        </Preference>
+
+</PreferenceScreen>

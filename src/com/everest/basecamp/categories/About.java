@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.preference.Preference;
+import android.content.Intent;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -46,6 +47,22 @@ public class About extends SettingsPreferenceFragment {
     @Override
     public int getMetricsCategory() {
         return MetricsProto.MetricsEvent.EVEREST;
+    }
+
+    @Override
+    public RecyclerView onCreateRecyclerView(LayoutInflater inflater, ViewGroup container, Bundle icicle) {
+        RecyclerView rcv = super.onCreateRecyclerView(inflater, container, icicle);
+        GridLayoutManager layoutG = new GridLayoutManager(getActivity(), 2);
+        layoutG.setSpanSizeLookup(new SpanSizeLookupG());
+        rcv.setLayoutManager(layoutG);
+        return rcv;
+    }
+
+    class SpanSizeLookupG extends GridLayoutManager.SpanSizeLookup {
+        @Override
+        public int getSpanSize(int position) {
+                return 1;
+        }
     }
 
     public static void lockCurrentOrientation(Activity activity) {

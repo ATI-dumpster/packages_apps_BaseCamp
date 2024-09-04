@@ -6,6 +6,32 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- links -->
+    <string name="links_summary">Checkout the important links</string>
+    <string name="links_title">Links</string>
+    <string name="link_1_title" translatable="false">Everest channel</string>
+    <string name="link_1_summary" translatable="false">Checkout our releases</string>
+    <string name="link_2_title" translatable="false">Everest group</string>
+    <string name="link_2_summary" translatable="false">Need some help?</string>
+    <string name="link_3_title" translatable="false">Everest github</string>
+    <string name="link_3_summary" translatable="false">Fully open-source!</string>
+
+    <!-- About contributors -->
+    <string name="about_summary">About Everest contributors</string>
+    <string name="about_title">About US</string>
+    <string name="about_contributor_1_title" translatable="false">Janak Niroula</string>
+    <string name="about_contributor_1_summary" translatable="false">Founder/Lead Developer</string>
+    <string name="about_contributor_2_title" translatable="false">Vimal</string>
+    <string name="about_contributor_2_summary" translatable="false">Developer</string>
+    <string name="about_contributor_3_title" translatable="false">Arman ATI</string>
+    <string name="about_contributor_3_summary" translatable="false">Developer</string>
+    <string name="about_contributor_4_title" translatable="false">Taki</string>
+    <string name="about_contributor_4_summary" translatable="false">Designer</string>
+
+    <!-- Changelog -->
+    <string name="changelog_title">What\'s New?</string>
+    <string name="changelog_summary">Discover the latest updates</string>
+
     <!-- QS Widgets -->
     <string name="qs_widgets_enabled_title">QuickSettings Widgets</string>
     <string name="qs_widgets_enabled_summary">Show quicksettings widgets for quick access</string>
