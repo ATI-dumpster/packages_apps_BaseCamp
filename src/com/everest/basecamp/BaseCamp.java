@@ -34,6 +34,7 @@ import com.android.settings.SettingsPreferenceFragment;
 
 import com.everest.basecamp.categories.Themes;
 import com.everest.basecamp.categories.System;
+import com.everest.basecamp.categories.About;
 
 import com.everest.basecamp.navigation.BubbleNavigationConstraintView;
 import com.everest.basecamp.navigation.BubbleNavigationChangeListener;
@@ -99,6 +100,7 @@ public class BaseCamp extends SettingsPreferenceFragment implements
             super(fm);
             frags[0] = new Themes();
             frags[1] = new System();
+            frags[2] = new About();
         }
 
         @Override
@@ -120,7 +122,8 @@ public class BaseCamp extends SettingsPreferenceFragment implements
     private String[] getTitles() {
         return new String[]{
             getString(R.string.themes_category),
-            getString(R.string.system_category)
+            getString(R.string.system_category),
+            getString(R.string.about_category)
         };
     }
 
